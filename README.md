@@ -1,5 +1,5 @@
 # port_noie2
-A pt-br OpenIE corpus and model.
+A pt-br OpenIE model.
 
 ## Setup Project:
 1. First install python 3.8 and run pip install poetry.
