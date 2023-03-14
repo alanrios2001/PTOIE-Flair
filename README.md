@@ -6,6 +6,12 @@ A pt-br OpenIE model.
 2. Open the project, set a poetry python interpreter and run poetry update on venv terminal.
 3. After that, you need to wait for poetry to install all the needed packages.
 
+## Download pré-trained models:
+For downloading my pré-trained models and make it working, i'm leaving a link, just download and
+move the folders to 'train_output' folder on the repo clone.
+link: 
+
+
 
 ## Train and Pred Usage:
 
