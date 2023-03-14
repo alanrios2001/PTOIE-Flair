@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "Flair-oie"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.10"
+torch = { url = "https://download.pytorch.org/whl/cu117/torch-1.13.0%2Bcu117-cp39-cp39-win_amd64.whl" }
+spacy = {extras = ["cuda117"], version = "^3.5.0"}
+flair = "^0.11.3"
+typer = "*"
+torch-optimizer = "^0.3.0"
+madgrad = "^1.2"
+transformers = "^4.26.0"
+torchtext = "^0.14.1"
+jupyter = "^1.0.0"
+protobuf = "^3.20"
+sacremoses = "^0.0.53"
+deep-translator = "^1.10.1"
+diskcache = "^5.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
