@@ -10,6 +10,7 @@ A pt-br OpenIE model.
 For downloading my pré-trained models and make it working, i'm leaving a link, just download and
 move the folders to 'train_output' folder on the repo clone.
 link: https://drive.google.com/drive/folders/1w_yTuIrfLOtluQogalxRTaRzef9dy2m3?usp=share_link
+-Some models paths on drive have fine_tuned versions inside, they had improved performance on gold_dataset eval
 
 
 
