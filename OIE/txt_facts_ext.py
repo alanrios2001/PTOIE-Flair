@@ -1,6 +1,7 @@
 from predict import Predictor
+from OIE.datasets.validated_splits.contractions import transform_portuguese_contractions
 
-model = "LSOIE++"
+model = "test_bert"
 oie = Predictor(model)
 show_triple = True
 
@@ -11,7 +12,7 @@ with open("texto.txt", "r", encoding="utf-8") as f:
 
 exts = []
 for line in lines:
-    ext = oie.pred(line, False)
+    ext = oie.pred(transform_portuguese_contractions(line), False)
     for e in ext:
         ex = []
         for i in e:

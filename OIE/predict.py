@@ -39,96 +39,112 @@ class Predictor:
 
 
     def pred(self, text:str, show_output: bool):
-        sentence = Sentence(text)
-        self.oie.predict(sentence)
-
-        # separa elementos da tripla
-        arg0 = [(span.text, span.score, span.tag,[span.start_position, span.end_position]) for span in sentence.get_spans('label') if span.tag == "ARG0"]
-        rel = [(span.text, span.score, span.tag,[span.start_position, span.end_position]) for span in sentence.get_spans('label') if span.tag == "V"]
-        arg1 = [(span.text, span.score, span.tag,[span.start_position, span.end_position]) for span in sentence.get_spans('label') if span.tag == "ARG1"]
-
-
-        elems = arg0
-        for r in rel:
-            insert = False
-            for i, e in enumerate(elems):
-                if r[3][0] < e[3][0] and not insert:
-                    elems.insert(elems.index(e), r)
-                    insert = True
-            if not insert:
-                elems.append(r)
-
-        for a in arg1:
-            insert = False
-            for i, e in enumerate(elems):
-                if a[3][0] < e[3][0] and not insert:
-                    elems.insert(elems.index(e), a)
-                    insert = True
-            if not insert:
-                elems.append(a)
-
-        # monta triplas
         exts = []
-        ext = []
-        last_arg0 = ()
-        last_rel = ()
-        last_arg1 = ()
-        for i, el in enumerate(elems):
-            if el[2] == "ARG0":
-                if len(ext) == 0:
-                    ext.append(el)
-                    last_arg0 = el
-                else:
-                    if ext[-1][2] == "ARG0":
+        sentences = [text]
+        if len(text)>200 and text.count(".")>1:
+            split = [t for t in text.split(".")]
+            if len(split) > 1:
+                for s in split:
+                    if s != "":
+                        sentences.append(s+ ".")
+        split = [t for t in text.split("?")]
+        if len(split) > 1:
+            for s in split:
+                if s != "":
+                    sentences.append(s+ "?")
+        split = [t for t in text.split("!")]
+        if len(split) > 1:
+            for s in split:
+                if s != "":
+                    sentences.append(s+ "!")
+
+        for sentenca in sentences:
+            sentence = Sentence(sentenca)
+            self.oie.predict(sentence)
+
+            # separa elementos da tripla
+            arg0 = [(span.text, span.score, span.tag,[span.start_position, span.end_position]) for span in sentence.get_spans('label') if span.tag == "ARG0"]
+            rel = [(span.text, span.score, span.tag,[span.start_position, span.end_position]) for span in sentence.get_spans('label') if span.tag == "V"]
+            arg1 = [(span.text, span.score, span.tag,[span.start_position, span.end_position]) for span in sentence.get_spans('label') if span.tag == "ARG1"]
+
+            elems = arg0
+            for r in rel:
+                insert = False
+                for i, e in enumerate(elems):
+                    if r[3][0] < e[3][0] and not insert:
+                        elems.insert(elems.index(e), r)
+                        insert = True
+                if not insert:
+                    elems.append(r)
+
+            for a in arg1:
+                insert = False
+                for i, e in enumerate(elems):
+                    if a[3][0] < e[3][0] and not insert:
+                        elems.insert(elems.index(e), a)
+                        insert = True
+                if not insert:
+                    elems.append(a)
+
+            # monta triplas
+            ext = []
+            last_arg0 = ()
+            last_rel = ()
+            last_arg1 = ()
+            for i, el in enumerate(elems):
+                if el[2] == "ARG0":
+                    if len(ext) == 0:
                         ext.append(el)
                         last_arg0 = el
-
-            elif el[2] == "V":
-                if len(ext) > 0:
-                    if ext[-1][2] == "ARG0":
-                        ext.append(el)
-                        #last_rel = el
                     else:
-                        if ext[-1][2] == "V":
+                        if ext[-1][2] == "ARG0":
+                            ext.append(el)
+                            last_arg0 = el
+
+                elif el[2] == "V":
+                    if len(ext) > 0:
+                        if ext[-1][2] == "ARG0":
                             ext.append(el)
                             #last_rel = el
-
-                        if ext[-1][2] == "ARG1":
-                            if last_arg0[3][1] < el[3][0]:
-                                exts.append(ext)
-                                ext = [last_arg0, el]
-                                #last_rel = el
-                            else:
+                        else:
+                            if ext[-1][2] == "V":
                                 ext.append(el)
                                 #last_rel = el
 
-            elif el[2] == "ARG1":
-                if len(ext) > 0:
-                    if ext[-1][2] == "V":
-                        ext.append(el)
-                        #last_arg1 = el
-                    else:
-                        if ext[-1][2] == "ARG1":
+                            if ext[-1][2] == "ARG1":
+                                if last_arg0[3][1] < el[3][0]:
+                                    exts.append(ext)
+                                    ext = [last_arg0, el]
+                                    #last_rel = el
+                                else:
+                                    ext.append(el)
+                                    #last_rel = el
+
+                elif el[2] == "ARG1":
+                    if len(ext) > 0:
+                        if ext[-1][2] == "V":
                             ext.append(el)
                             #last_arg1 = el
+                        else:
+                            if ext[-1][2] == "ARG1":
+                                ext.append(el)
+                                #last_arg1 = el
+            n = ""
+            for e in ext:
+                n += e[2] + " "
+            if "ARG0" in n and "V" in n and "ARG1" in n:
+                exts.append(ext)
 
-        n = ""
-        for e in ext:
-            n += e[2] + " "
-        if "ARG0" in n and "V" in n and "ARG1" in n:
-            exts.append(ext)
 
-
-        if show_output:
-            maior = ""
-            if len(maior) < len(sentence):
-                maior = sentence
-            if len(maior) < len(str(sentence.get_spans('label'))):
-                maior = str(sentence.get_spans('label'))
-            if len(maior) < len(text):
-                maior = text
-            self.display(maior, exts, text, str(sentence).split("→")[1], sentence)
-
+            if show_output:
+                maior = ""
+                if len(maior) < len(sentence):
+                    maior = sentence
+                if len(maior) < len(str(sentence.get_spans('label'))):
+                    maior = str(sentence.get_spans('label'))
+                if len(maior) < len(text):
+                    maior = text
+                self.display(maior, exts, text, str(sentence).split("]: ")[1], sentence)
         return exts
 
 

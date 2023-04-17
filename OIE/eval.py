@@ -6,7 +6,6 @@ import typer
 import json
 import pandas as pd
 from sklearn.metrics import classification_report, confusion_matrix
-from IPython.display import display
 
 app = typer.Typer()
 
@@ -119,7 +118,7 @@ def run(model_path: str, corpus_dir: str, train: str, test: str, dev: str):
         model = SequenceTagger.load(model_path + "/best-model.pt")
         log_txt = Eval(model=model, out_txt=out_txt, corpus=corpus).log_txt
     except:
-        print("best-model.pt not found, trying to use final-model.pt")
+        print("best-model.pt not found, trying final-model.pt")
         try:
                 #carregando modelo final
             model = SequenceTagger.load(model_path + "/final-model.pt")
