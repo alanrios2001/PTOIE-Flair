@@ -1,6 +1,7 @@
 from flair.models import SequenceTagger
 from flair.data import Sentence
 import typer
+from OIE.datasets.validated_splits.contractions import transform_portuguese_contractions, clean_extraction
 
 app = typer.Typer()
 
@@ -151,6 +152,7 @@ class Predictor:
 @app.command()
 def run(model:str, text:str, show_output: bool = True):
     predictor = Predictor(model)
+    text = transform_portuguese_contractions(text)
     predictor.pred(text, show_output)
 
 if __name__ == "__main__":
