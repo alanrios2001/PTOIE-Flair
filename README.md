@@ -1,6 +1,10 @@
 # port_noie2
 A pt-br OpenIE model.
 
+##UPDATE
+New best pre-trained model(TradOIE_v3) available, just doenload it on the Google Drive link above.
+
+
 ## Setup Project:
 1. First install python 3.8 and run pip install poetry.
 2. Open the project, set a poetry python interpreter and run poetry update on venv terminal.
