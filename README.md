@@ -1,7 +1,7 @@
 # port_noie2
 A pt-br OpenIE model.
 
-##UPDATE
+## UPDATE
 New best pre-trained model(TradOIE_v3) available, just doenload it on the Google Drive link above.
 
 
