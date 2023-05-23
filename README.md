@@ -1,4 +1,4 @@
-# port_noie2
+# PTOIE-Flair
 A pt-br OpenIE model.
 
 ## UPDATE
