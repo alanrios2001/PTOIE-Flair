@@ -16,14 +16,9 @@ flair = "^0.12.2"
 typer = "*"
 torch-optimizer = "^0.3.0"
 madgrad = "^1.2"
-torchtext = "^0.14.1"
 jupyter = "^1.0.0"
 protobuf = "^3.20"
 sacremoses = "^0.0.53"
-deep-translator = "^1.10.1"
-diskcache = "^5.4.0"
-pandas = "^1.5.3"
-nltk = "^3.8.1"
 
 
 [build-system]

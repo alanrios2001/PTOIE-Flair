@@ -47,17 +47,7 @@ class Predictor:
             if len(split) > 1:
                 for s in split:
                     if s != "":
-                        sentences.append(s+ ".")
-        split = [t for t in text.split("?")]
-        if len(split) > 1:
-            for s in split:
-                if s != "":
-                    sentences.append(s+ "?")
-        split = [t for t in text.split("!")]
-        if len(split) > 1:
-            for s in split:
-                if s != "":
-                    sentences.append(s+ "!")
+                        sentences.append(s + ".")
 
         for sentenca in sentences:
             sentence = Sentence(sentenca)
