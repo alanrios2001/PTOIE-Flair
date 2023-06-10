@@ -2,7 +2,7 @@
 A pt-br OpenIE model.
 
 ## UPDATE
-New best pre-trained model(TradOIE_v3) available, just doenload it on the Google Drive link above.
+New version of PTOIE model(best) available, just doenload it on the Google Drive link above.
 
 
 ## Setup Project:
