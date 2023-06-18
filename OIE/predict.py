@@ -47,7 +47,14 @@ class Predictor:
             if len(split) > 1:
                 for s in split:
                     if s != "":
-                        sentences.append(s + ".")
+                        sentences.append(s)
+
+        split = [t for t in text.split(",")]
+        if len(split) > 1:
+            for s in split:
+                if s != "":
+                    sentences.append(s)
+
 
         for sentenca in sentences:
             sentence = Sentence(sentenca)
@@ -62,7 +69,7 @@ class Predictor:
             for r in rel:
                 insert = False
                 for i, e in enumerate(elems):
-                    if r[3][0] < e[3][0] and not insert:
+                    if r[3][1] <= e[3][0] and not insert:
                         elems.insert(elems.index(e), r)
                         insert = True
                 if not insert:
@@ -71,7 +78,7 @@ class Predictor:
             for a in arg1:
                 insert = False
                 for i, e in enumerate(elems):
-                    if a[3][0] < e[3][0] and not insert:
+                    if a[3][1] <= e[3][0] and not insert:
                         elems.insert(elems.index(e), a)
                         insert = True
                 if not insert:
@@ -126,16 +133,29 @@ class Predictor:
             if "ARG0" in n and "V" in n and "ARG1" in n:
                 exts.append(ext)
 
+            # filtra extrações iguais
+            if len(exts) > 1:
+                exts2 = []
+                i = 0
+                while i < len(exts):
+                    current = exts[i]
+                    exts2.append(current)
+                    exts.remove(current)
+                    i += 1
+                exts = exts2
+
+
 
             if show_output:
-                maior = ""
-                if len(maior) < len(sentence):
-                    maior = sentence
-                if len(maior) < len(str(sentence.get_spans('label'))):
-                    maior = str(sentence.get_spans('label'))
-                if len(maior) < len(text):
-                    maior = text
-                self.display(maior, exts, text, str(sentence).split("]: ")[1], sentence)
+                if len(sentence.get_spans('label')) >= 3:
+                    maior = ""
+                    if len(maior) < len(sentence):
+                        maior = sentence
+                    if len(maior) < len(str(sentence.get_spans('label'))):
+                        maior = str(sentence.get_spans('label'))
+                    if len(maior) < len(text):
+                        maior = text
+                    self.display(maior, exts, text, str(sentence).split("]: ")[1], sentence)
         return exts
 
 
