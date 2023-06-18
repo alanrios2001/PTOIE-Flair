@@ -2,7 +2,7 @@
 A pt-br OpenIE model.
 
 ## UPDATE
-New version of PTOIE model(best) available, just download it on the Google Drive link above.
+Two new models uploaded, TA_lsoie and TA_s2, both are better than TradOIE_v3. Just download it on the Google Drive link above.
 
 
 ## Setup Project:
